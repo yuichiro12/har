@@ -8,10 +8,9 @@ import (
 	"io"
 	"time"
 )
-
 type Log struct {
 	Version string   `json:"version"`
-	Creator Creator  `json:"creator"`
+	Creator *Creator `json:"creator"`
 	Browser *Browser `json:"browser,omitempty"`
 	Pages   []Page   `json:"pages,omitempty"`
 	Entries []Entry  `json:"entries"`
@@ -31,11 +30,11 @@ type Browser struct {
 }
 
 type Page struct {
-	StartedDateTime *time.Time  `json:"startedDateTime"`
-	Id              string      `json:"id"`
-	Title           string      `json:"title"`
-	PageTimings     PageTimings `json:"pageTimings,omitempty"`
-	Comment         string      `json:"comment,omitempty"`
+	StartedDateTime time.Time    `json:"startedDateTime"`
+	Id              string       `json:"id"`
+	Title           string       `json:"title"`
+	PageTimings     *PageTimings `json:"pageTimings,omitempty"`
+	Comment         string       `json:"comment,omitempty"`
 }
 
 type PageTimings struct {
@@ -46,12 +45,12 @@ type PageTimings struct {
 
 type Entry struct {
 	Pageref         string        `json:"pageref,omitempty"`
-	StartedDateTime *time.Time    `json:"startedDateTime"`
+	StartedDateTime time.Time     `json:"startedDateTime"`
 	Time            time.Duration `json:"time"`
-	Request         Request       `json:"request"`
-	Response        Response      `json:"response"`
+	Request         *Request      `json:"request"`
+	Response        *Response     `json:"response"`
 	Cache           *Cache        `json:"cache"`
-	Timings         Timings       `json:"timings"`
+	Timings         *Timings      `json:"timings"`
 	ServerIPAddress string        `json:"serverIPAddress,omitempty"`
 	Connection      string        `json:"connection,omitempty"`
 	Comment         string        `json:"comment,omitempty"`
@@ -76,7 +75,7 @@ type Response struct {
 	HTTPVersion string   `json:"httpVersion"`
 	Cookies     []Cookie `json:"cookies"`
 	Headers     []Header `json:"headers"`
-	Content     Content  `json:"content"`
+	Content     *Content `json:"content"`
 	RedirectURL string   `json:"redirectURL"`
 	HeadersSize int64    `json:"headersSize"`
 	BodySize    int64    `json:"bodySize"`
@@ -84,14 +83,14 @@ type Response struct {
 }
 
 type Cookie struct {
-	Name     string     `json:"name"`
-	Value    string     `json:"value"`
-	Path     string     `json:"path,omitempty"`
-	Domain   string     `json:"domain,omitempty"`
-	Expires  *time.Time `json:"expires"`
-	HTTPOnly bool       `json:"httpOnly"`
-	Secure   bool       `json:"secure"`
-	Comment  string     `json:"comment,omitempty"`
+	Name     string    `json:"name"`
+	Value    string    `json:"value"`
+	Path     string    `json:"path,omitempty"`
+	Domain   string    `json:"domain,omitempty"`
+	Expires  time.Time `json:"expires"`
+	HTTPOnly bool      `json:"httpOnly"`
+	Secure   bool      `json:"secure"`
+	Comment  string    `json:"comment,omitempty"`
 }
 
 type Header struct {
@@ -137,21 +136,21 @@ type Cache struct {
 }
 
 type CacheDetails struct {
-	Expires    *time.Time `json:"expires,omitempty"`
-	LastAccess *time.Time `json:"lastAccess,omitempty"`
-	ETag       string     `json:"eTag"`
-	HitCount   uint64     `json:"hitCount"`
-	Comment    string     `json:"comment,omitempty"`
+	Expires    time.Time `json:"expires,omitempty"`
+	LastAccess time.Time `json:"lastAccess,omitempty"`
+	ETag       string    `json:"eTag"`
+	HitCount   int64     `json:"hitCount"`
+	Comment    string    `json:"comment,omitempty"`
 }
 
 type Timings struct {
-	Blocked *int64 `json:"blocked,omitempty"`
-	DNS     *int64 `json:"dns,omitempty"`
-	Connect *int64 `json:"connect,omitempty"`
+	Blocked int64  `json:"blocked,omitempty"`
+	DNS     int64  `json:"dns,omitempty"`
+	Connect int64  `json:"connect,omitempty"`
 	Send    int64  `json:"send"`
 	Wait    int64  `json:"wait"`
 	Receive int64  `json:"receive"`
-	SSL     *int64 `json:"ssl,omitempty"`
+	SSL     int64  `json:"ssl,omitempty"`
 	Comment string `json:"comment,omitempty"`
 }
 
